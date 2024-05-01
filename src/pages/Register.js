@@ -3,9 +3,11 @@ import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "../style/register.style.css";
 import userStore from '../store/userStore'
+import uiStore from '../store/uiStore'
 
 const Register = () => {
   const {user, registerUser} = userStore()
+  const {showToastMessage}= uiStore()
 
   const [formData, setFormData] = useState({
     email: "",
@@ -35,8 +37,9 @@ const Register = () => {
     // FormData에 있는 값을 가지고 백엔드로 넘겨주기
     setPasswordError('')
     setPolicyError(false)
-    await registerUser({name, email,password})
+    await registerUser({name, email,password}, navigate,showToastMessage)
     //성공후 로그인 페이지로 넘어가기
+    // navigate('/login')
   };
 
   const handleChange = (event) => {
@@ -61,7 +64,7 @@ const Register = () => {
           </Alert>
         </div>
       )}
-      <div>{user.name}</div>
+      <div>{user?.name}</div>
       <Form onSubmit={register}>
         <Form.Group className="mb-3">
           <Form.Label>Email</Form.Label>

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
 import {Container, Row, Col} from 'react-bootstrap';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useProducts } from '../store/useProduct';
+import productStore from '../store/productStore';
 
 const ProductAll = () => {
-  const {productList} = useProducts()
+  const {productList} = productStore()
   // const [products, setProducts] = useState([])
   // const [query, setQuery] = useSearchParams()
   
@@ -32,7 +32,7 @@ const ProductAll = () => {
 	<div>
     <Container>
       <Row>
-        {productList.map((product,i) =>(
+        {productList?.map((product,i) =>(
           <Col lg={3} key={i}>
             <Card item={product}/>
           </Col>

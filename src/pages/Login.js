@@ -1,24 +1,32 @@
 import React, { useState } from 'react'
-import {Container, Form, Button} from 'react-bootstrap'
+import {Container, Form, Button, Alert} from 'react-bootstrap'
 import {useNavigate, Link} from 'react-router-dom'
 import userStore from '../store/userStore'
 
 const Login = () => {
-	const {user} = userStore()
+	const {user, error, loginWithEmail} = userStore()
 	const [email, setEmail] =useState('')
 	const [password, setPassword] =useState('')
 	const navigate = useNavigate()
 
-	const loginWithEmail=(event)=>{
+	const login= async(event)=>{
 		event.preventDefault();
-		console.log('로그인 시작')
+		await loginWithEmail({email,password})	
+	}
+	if(user){
+		navigate('/')
 	}
 
   return (
 	<div className="top">
 	<div className="login-container">
 	<Container>
-		<Form onSubmit={(event)=>loginWithEmail(event)}>
+		{error && (
+          <div className="error-message">
+            <Alert variant="danger">{error}</Alert>
+          </div>
+        )}
+		<Form onSubmit={(event)=>login(event)}>
 			<Form.Group className="mb-3" controlId="formBasicEmail">
 				<Form.Label>Email address</Form.Label>
 				<Form.Control 

@@ -13,6 +13,8 @@ import cartStore from '../store/cartStore'
 const NavbarCom = () => {
 	const {cartItemCount} = cartStore()
 	const {user, logout} = userStore()
+
+	console.log('Navbar상황 -user유무 :', user)
 	const menus=[
 		'Women', 'Men', 'Baby','Kids',
 		'H&M HOME', 'Sport', 'Sale' 
@@ -31,6 +33,7 @@ const NavbarCom = () => {
 			//로그아웃로직
 			navigate('/')
 			logout()
+			// sessionStorage.clear()
 		}
 	}
 	function search(event){
@@ -88,6 +91,7 @@ const NavbarCom = () => {
 			</div>
 			<div className='hidden shopping-bag' onClick={()=>navigate('/cart')}>
 				<FontAwesomeIcon icon={faShoppingBag} />
+				<span>({cartItemCount})</span>
 			</div>
 			<div className='user' onClick={showUser}>
 				<FontAwesomeIcon icon={faUser} />

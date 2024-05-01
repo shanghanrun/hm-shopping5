@@ -9,13 +9,13 @@ import UserInfo from './pages/UserInfo';
 import Cart from './pages/Cart';
 import NavbarCom from './components/Navbar';
 import Favorite from './pages/Favorite';
-import { useAuth } from './store/useAuth';
+import userStore from './store/userStore';
 import { Navigate} from 'react-router-dom'
 
 function App() {
-  const {auth} = useAuth()
+  const {user} = userStore()
   function PrivateRoute({Target}){  //PrivateRoute는 컴포넌트라서 태그나 컴포넌트를 리턴해야 된다.
-    return auth ===true? <Target />: <Navigate to='/login' />
+    return (user)? <Target />: <Navigate to='/login' />
   }
   return (
     <div>
