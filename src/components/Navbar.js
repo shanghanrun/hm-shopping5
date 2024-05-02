@@ -75,6 +75,9 @@ const NavbarCom = () => {
     	menuRef.current.classList.toggle('active2');
         searchRef.current.classList.toggle('active2');
 	}
+	function gotoAdmin(){
+		
+	}
   
 	useEffect(()=>{
 		// getProducts()
@@ -85,6 +88,15 @@ const NavbarCom = () => {
 
   return (
 	<div>
+		{
+			user?.level ==='admin'?
+			<div onClick={gotoAdmin} 
+				style={{display:"flex", justifyContent:"end",marginTop:"20px", marginRight:'40px'}}>
+				<p style={{color:"#0055ff", borderBottom:'1px solid #0055ff',fontSize:'20px'}}
+				>Admin Page</p>
+			</div>
+			: null
+		}
 		<div className='user-login'>
 			<div className="login-btn" onClick={handleLoginClick} >
 				<div id="login-btn">{(user) ? "로그아웃": "로그인"}</div>
