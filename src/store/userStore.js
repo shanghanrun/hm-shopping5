@@ -3,11 +3,28 @@ import api from '../utils/api'
 
 const userStore =create((set)=>({
 	user:null,
-	token:null,
 	error:'',
 	// loading:true,
 
-	loginWithToken: async ()=> set(),
+	loginWithToken: async ()=> {
+		// const token= sessionStorage.getItem('token') 이것 필요없다. api에서 알아서 해더에 넣도록 설정해 두었다.
+		try{
+			const resp = await api.get('/user/me')
+			if(resp.status !==200){
+				throw new Error(resp.data.message)
+			}
+			const u = await resp.data.user
+			set({user: u})
+		} catch(e){
+			console.log(e.message)
+			// set({error:e.message}) 이걸 안해야 Login페이지에 쓸데없는 에러메시지가 안나온다.
+			set({error: ''})
+			// this.logout()  zustand this사용 못한다.
+			// invalid한 토큰삭제,user null로
+			sessionStorage.clear()
+			set({user:null})
+		}
+	},
 	loginWithEmail: async ({email,password})=>{
 		try{
 			const resp = await api.post('/user/login', {email,password})
@@ -15,7 +32,10 @@ const userStore =create((set)=>({
 				throw new Error(resp.data.message)
 			}
 			console.log('resp', resp)
-			set({user: resp.data.user, token:resp.data.token })
+			const u = await resp.data.user
+			const t = await resp.data.token
+			set({user: u })
+			sessionStorage.setItem('token',t)
 		} catch(e){
 			console.log(e.message)
 			set({error:e.message})

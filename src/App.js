@@ -11,12 +11,18 @@ import NavbarCom from './components/Navbar';
 import Favorite from './pages/Favorite';
 import userStore from './store/userStore';
 import { Navigate} from 'react-router-dom'
+import {useEffect} from 'react'
 
 function App() {
-  const {user} = userStore()
+  const {user, loginWithToken} = userStore()
   function PrivateRoute({Target}){  //PrivateRoute는 컴포넌트라서 태그나 컴포넌트를 리턴해야 된다.
     return (user)? <Target />: <Navigate to='/login' />
   }
+
+  useEffect(()=>{ //async await 사용안한다.
+    loginWithToken()
+  },[])
+
   return (
     <div>
       <NavbarCom />
