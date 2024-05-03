@@ -19,13 +19,8 @@ import AdminOrderPage from './pages/AdminOrderPage';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentPage from './pages/PaymentPage';
 import Sidebar from './components/Sidebar';
-// import {Cloudinary} from "@cloudinary/url-gen";
 
 function App() {
-  // const cld = new Cloudinary({
-  //   cloud: {
-  //     cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
-  //   }
   // });
   const location = useLocation()
   const {user, loginWithToken} = userStore()

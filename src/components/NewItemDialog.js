@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Modal, Button, Row, Col } from "react-bootstrap";
-// import { useDispatch, useSelector } from "react-redux";
-// 이것은 잠시 보류한다.
 import CloudinaryUploadWidget from "../utils/CloudinaryUploadWidget";
-// import { productActions } from "../action/productAction";
-import productStore from '../store/productStore'
+
 import { CATEGORY, STATUS, SIZE } from "../constants/product.constants";
 import "../style/adminProduct.style.css";
 // import * as types from "../constants/product.constants";
-// import { commonUiActions } from "../action/commonUiAction";
-import uiStore from '../store/uiStore'
+import uiStore from '../store/uiStore';
+import productStore from '../store/productStore'
 
 const InitialFormData = {
   name: "",
@@ -24,11 +21,10 @@ const InitialFormData = {
 const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   // const selectedProduct = useSelector((state) => state.product.selectedProduct);
   // const { error } = useSelector((state) => state.product);
-  const {error, selectedProduct} = productStore()
+  const {error, selectedProduct,createProduct} = productStore()
   const [formData, setFormData] = useState(
     mode === "new" ? { ...InitialFormData } : 
-    selectedProduct
-  
+    selectedProduct  
   );
   const [stock, setStock] = useState([]);
   // const dispatch = useDispatch();
@@ -38,13 +34,28 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     // 다이얼로그 닫아주기
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
+    // console.log('formData :', formData)
+    // [ ['s':3, 'xl':2] ] --> {s;3, xl;2}
     //재고를 입력했는지 확인, 아니면 에러
+    if(stock.length ===0) return setStockError(true) //return해야 다음진행안됨
     // 재고를 배열에서 객체로 바꿔주기
-    // [['M',2]] 에서 {M:2}로
+    // stock.map((item)=> ( {[item[0]]: item[1]} ) )  // [{},{}] 어레이이다.
+    // let newStock ={}
+    // stock.forEach((item)=>{
+    //   newStock = {...newStock, [item[0]]: parseInt(item[1])}
+    // })
+
+    // reduce(리듀스)를 사용하는 방법
+    const totalStock = stock.reduce((total, item)=>{
+      return {...total, [item[0]] : parseInt(item[1])}
+    },{})
+    console.log('totalStock :', totalStock)
     if (mode === "new") {
       //새 상품 만들기
+      await createProduct({...formData, totalStock})
+      setShowDialog(false)//창닫기
     } else {
       // 상품 수정하기
     }
@@ -84,6 +95,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   };
 
   const onHandleCategory = (event) => {
+    //이미 선택되었으면 제거
     if (formData.category.includes(event.target.value)) {
       const newCategory = formData.category.filter(
         (item) => item !== event.target.value
@@ -92,7 +104,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         ...formData,
         category: [...newCategory],
       });
-    } else {
+    } else { //선택 안되었으면 추가
       setFormData({
         ...formData,
         category: [...formData.category, event.target.value],

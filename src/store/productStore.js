@@ -1,4 +1,8 @@
 import {create} from 'zustand'
+import api from '../utils/api';
+import uiStore from './uiStore'
+
+// const {showToastMessage} =uiStore() 이러면 useRef()에러 난다.
 
 const productStore =create((set)=>({
 	error:'',
@@ -48,9 +52,23 @@ const productStore =create((set)=>({
 			"count": 0
 		}
 	],
-	addProduct:(val)=>set({productList:{...val}}),
 	getProductList:()=>set(),
-	createProduct:()=>set(),
+	createProduct:async(formData)=>{
+		try{
+			const resp = await api.post('/product', formData)
+			if(resp.status !==200) throw new Error(resp.error)
+			console.log('성공한 데이터:', resp.data.data)
+			// showToastMessage('상품생성 완료', 'success')
+			uiStore.getState().showToastMessage('회원가입을 완료했습니다.', 'success');
+			// set((state)=>({
+			// 	productList: [...state.productList, resp.data.data]
+			// }))  필요없다. 디비에서 받아올 것이다.
+		}catch(e){
+			console.log(e.message)
+			set({error: e.message})
+			uiStore.getState().showToastMessage(e.message, 'fail');
+		}
+	},
 	deleteProduct:()=>set(),
 	editProduct:()=>set(),
 	getProductDetail:()=>set(),
