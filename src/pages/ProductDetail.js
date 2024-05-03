@@ -45,7 +45,7 @@ const ProductDetail = () => {
       <Col className="detail-info" lg={4}>
         <div id="detail-item-title">{item?.title}</div>
         <div id="detail-item-price">₩ {item?.price}</div>
-        <div id="detail-item-choice">{item?.choice ==true? "Conscious choice": ""}</div>
+        <div id="detail-item-choice">{item?.choice ===true? "Conscious choice": ""}</div>
         <DropdownButton id="size-dropdown" title="사이즈 선택">
           {sizes.map(size =>
             <Dropdown.Item onClick={() => handleSizeSelect(size)} key={size}>{size}</Dropdown.Item>

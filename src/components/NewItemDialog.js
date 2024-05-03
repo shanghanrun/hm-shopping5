@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Form, Modal, Button, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+// 이것은 잠시 보류한다.
 import CloudinaryUploadWidget from "../utils/CloudinaryUploadWidget";
-import { productActions } from "../action/productAction";
+// import { productActions } from "../action/productAction";
+import productStore from '../store/productStore'
 import { CATEGORY, STATUS, SIZE } from "../constants/product.constants";
 import "../style/adminProduct.style.css";
-import * as types from "../constants/product.constants";
-import { commonUiActions } from "../action/commonUiAction";
+// import * as types from "../constants/product.constants";
+// import { commonUiActions } from "../action/commonUiAction";
+import uiStore from '../store/uiStore'
 
 const InitialFormData = {
   name: "",
@@ -19,13 +22,16 @@ const InitialFormData = {
   price: 0,
 };
 const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
-  const selectedProduct = useSelector((state) => state.product.selectedProduct);
-  const { error } = useSelector((state) => state.product);
+  // const selectedProduct = useSelector((state) => state.product.selectedProduct);
+  // const { error } = useSelector((state) => state.product);
+  const {error, selectedProduct} = productStore()
   const [formData, setFormData] = useState(
-    mode === "new" ? { ...InitialFormData } : selectedProduct
+    mode === "new" ? { ...InitialFormData } : 
+    selectedProduct
+  
   );
   const [stock, setStock] = useState([]);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [stockError, setStockError] = useState(false);
   const handleClose = () => {
     //모든걸 초기화시키고;
@@ -46,22 +52,35 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   const handleChange = (event) => {
     //form에 데이터 넣어주기
+    const {id, value} = event.target
+    setFormData({...formData, [id]:value })
   };
 
   const addStock = () => {
     //재고타입 추가시 배열에 새 배열 추가
+    setStock([...stock, []])
   };
 
   const deleteStock = (idx) => {
     //재고 삭제하기
+    //배열에서의 요소 삭제는 filter로 하는 것이 가장 일반적이다.
+    const newStock = stock.filter((item,i)=> i !== idx)
+    setStock(newStock)
   };
 
   const handleSizeChange = (value, index) => {
     //  재고 사이즈 변환하기
+    // [["s",3], ['m',4],['xl',5]
+    const newStock = [...stock]
+    newStock[index][0] = value;
+    setStock(newStock);
   };
 
   const handleStockChange = (value, index) => {
     //재고 수량 변환하기
+    const newStock =[...stock]
+    newStock[index][1] = value
+    setStock(newStock)
   };
 
   const onHandleCategory = (event) => {
@@ -83,6 +102,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   const uploadImage = (url) => {
     //이미지 업로드
+    setFormData({...formData, image: url})
   };
 
   useEffect(() => {
@@ -94,6 +114,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       }
     }
   }, [showDialog]);
+
+  console.log('stock :', stock)
 
   //에러나면 토스트 메세지 보여주기
 
@@ -167,16 +189,16 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                     <option value="" disabled selected hidden>
                       Please Choose...
                     </option>
-                    {SIZE.map((item, index) => (
+                    {SIZE.map((size, index) => (
                       <option
                         inValid={true}
-                        value={item.toLowerCase()}
+                        value={size.toLowerCase()}
                         disabled={stock.some(
-                          (size) => size[0] === item.toLowerCase()
+                          (item) => item[0] === size.toLowerCase()
                         )}
                         key={index}
                       >
-                        {item}
+                        {size}
                       </option>
                     ))}
                   </Form.Select>
@@ -208,7 +230,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
         <Form.Group className="mb-3" controlId="Image" required>
           <Form.Label>Image</Form.Label>
-          <CloudinaryUploadWidget uploadImage={uploadImage} />
+          <CloudinaryUploadWidget uploadImage={uploadImage} /> 
+         
 
           <img
             id="uploadedimage"

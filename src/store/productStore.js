@@ -1,6 +1,8 @@
 import {create} from 'zustand'
 
 const productStore =create((set)=>({
+	error:'',
+	selectedProduct:{},
 	productList:[
 		{
 			"id": 0,

@@ -76,7 +76,7 @@ const NavbarCom = () => {
         searchRef.current.classList.toggle('active2');
 	}
 	function gotoAdmin(){
-		
+		navigate('/admin/product')
 	}
   
 	useEffect(()=>{

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import OrderReceipt from "../component/OrderReceipt";
-import PaymentForm from "../component/PaymentForm";
+import OrderReceipt from "../components/OrderReceipt";
+import PaymentForm from "../components/PaymentForm";
 import "../style/paymentPage.style.css";
-import { useSelector, useDispatch } from "react-redux";
-import { orderActions } from "../action/orderAction";
+// import { useSelector, useDispatch } from "react-redux";
+// import { orderActions } from "../action/orderAction";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { commonUiActions } from "../action/commonUiAction";
+// import { commonUiActions } from "../action/commonUiAction";
 import { cc_expires_format } from "../utils/number";
 
 const PaymentPage = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [cardValue, setCardValue] = useState({
     cvc: "",

@@ -2,16 +2,19 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import "../App.css";
 import "../style/common.style.css";
+// import {Cloudinary} from "@cloudinary/url-gen";
 
-const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME; //dscla3iqu
 const UPLOADPRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
+
+console.log('uuu', UPLOADPRESET)
 
 class CloudinaryUploadWidget extends Component {
   componentDidMount() {
     var myWidget = window.cloudinary.createUploadWidget(
       {
         cloudName: CLOUDNAME,
-        uploadPreset: UPLOADPRESET,
+        uploadPreset: 'e1spresp',
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
