@@ -1,12 +1,9 @@
 import {create} from 'zustand'
-//status는 success, fail
+//status는 success, error,info,warning
 
 const uiStore =create((set)=>({
 	toastMessage:{message:'', status:''},
-	isFullyLoaded:true, //나중에 false로 바꾸기
-	// showToastMessage:(message,status)=>set({
-	// 	toastMessage: {message,status}
-	// }),
+	isFullyLoaded:true, 
 	showToastMessage: (message, status) => {
     set({ toastMessage: { message, status } });
  	},

@@ -5,7 +5,7 @@ import "../style/common.style.css";
 // import {Cloudinary} from "@cloudinary/url-gen";
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME; //dscla3iqu
-const UPLOADPRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
+const UPLOADPRESET = process.env.REACT_APP_CLOUDINARY_UNSIGNED_PRESET;
 
 console.log('uuu', UPLOADPRESET)
 

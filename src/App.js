@@ -19,9 +19,10 @@ import AdminOrderPage from './pages/AdminOrderPage';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentPage from './pages/PaymentPage';
 import Sidebar from './components/Sidebar';
+import uiStore from "./store/uiStore";
 
 function App() {
-  // });
+  const { toastMessage } = uiStore()
   const location = useLocation()
   const {user, loginWithToken} = userStore()
   function PrivateRoute({Target}){  //PrivateRoute는 컴포넌트라서 태그나 컴포넌트를 리턴해야 된다.
@@ -39,7 +40,7 @@ function App() {
 
   return (
     <div>
-      <ToastMessage />
+      <ToastMessage toastMessage={toastMessage} />
       {location.pathname.includes('admin')? 
         (
           <Routes>

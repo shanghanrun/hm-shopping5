@@ -58,7 +58,7 @@ const userStore =create((set)=>({
 
 		}catch(e){
 			console.log(e.message)
-			//누나는 error를 어딘가로 보내고 있다. 이것은 나중에...
+			showToastMessage('회원가입실패','error')
 		}
 	},
 

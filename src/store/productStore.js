@@ -58,15 +58,11 @@ const productStore =create((set)=>({
 			const resp = await api.post('/product', formData)
 			if(resp.status !==200) throw new Error(resp.error)
 			console.log('성공한 데이터:', resp.data.data)
-			// showToastMessage('상품생성 완료', 'success')
-			uiStore.getState().showToastMessage('회원가입을 완료했습니다.', 'success');
-			// set((state)=>({
-			// 	productList: [...state.productList, resp.data.data]
-			// }))  필요없다. 디비에서 받아올 것이다.
+			uiStore.getState().showToastMessage('상품가입을 완료했습니다.', 'success');
 		}catch(e){
 			console.log(e.message)
 			set({error: e.message})
-			uiStore.getState().showToastMessage(e.message, 'fail');
+			uiStore.getState().showToastMessage(e.message, 'error');
 		}
 	},
 	deleteProduct:()=>set(),
