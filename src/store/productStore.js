@@ -7,53 +7,21 @@ import uiStore from './uiStore'
 const productStore =create((set)=>({
 	error:'',
 	selectedProduct:{},
-	productList:[
-		{
-			"id": 0,
-			"img": "https://noona-hnm.netlify.app/pattern-jacket.jpeg",
-			"title": "벨티드 트윌 코트",
-			"price": 99900,
-			"choice": true,
-			"new": true,
-			"size": [
-				"S",
-				"M"
-			],
-			"status":"",
-			"count": 0
-		},
-		{
-			"id": 1,
-			"img": "https://noona-hnm.netlify.app/ankle-jeans.jpeg",
-			"title": "슬림핏 맘 하이웨이스트 앵클 진",
-			"price": 29900,
-			"choice": true,
-			"new": true,
-			"size": [
-				"S",
-				"M",
-				"L"
-			],
-			"status": "",
-			"count": 0
-		},
-		{
-			"id": 2,
-			"img": "https://noona-hnm.netlify.app/wide-jeans.jpeg",
-			"title": "와이드 하이웨이스트 진",
-			"price": 39900,
-			"choice": false,
-			"new": true,
-			"size": [
-				"M",
-				"L"
-			],
-			"status": "",
-			"count": 0
+	productList:[],
+	getProductList:async()=>{
+		try{
+			const resp= await api.get('/product')
+			if(resp.status !==200) throw new Error(resp.error)
+			console.log('product목록:',resp.data.data)
+			const list = resp.data.data
+			set({productList: list})	
+		}catch(e){
+			set({error: e.message})
+			uiStore.getState().showToastMessage(e.message, 'error');
 		}
-	],
-	getProductList:()=>set(),
+	},
 	createProduct:async(formData)=>{
+		console.log('store로 받은 formData :', formData)
 		try{
 			const resp = await api.post('/product', formData)
 			if(resp.status !==200) throw new Error(resp.error)

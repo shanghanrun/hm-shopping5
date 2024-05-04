@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import SearchBox from "../components/SearchBox";
 // import { useDispatch, useSelector } from "react-redux";
 // import { productActions } from "../action/productAction";
+import productStore from '../store/productStore'
 import NewItemDialog from "../components/NewItemDialog";
 // import * as types from "../constants/product.constants";
 import ReactPaginate from "react-paginate";
@@ -11,6 +12,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import ProductTable from "../components/ProductTable";
 
 const AdminProduct = () => {
+  const {productList, getProductList} = productStore()
   const navigate = useNavigate();
   const [query, setQuery] = useSearchParams();
   // const dispatch = useDispatch();
@@ -33,8 +35,8 @@ const AdminProduct = () => {
   ];
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
-
   useEffect(() => {
+    getProductList()
     //검색어나 페이지가 바뀌면 url바꿔주기 (검색어또는 페이지가 바뀜 => url 바꿔줌=> url쿼리 읽어옴=> 이 쿼리값 맞춰서  상품리스트 가져오기)
   }, [searchQuery]);
 
@@ -57,7 +59,8 @@ const AdminProduct = () => {
   const handlePageClick = ({ selected }) => {
     //  쿼리에 페이지값 바꿔주기
   };
-
+  console.log('productList ..:', productList)
+  
   return (
     <div className="locate-center">
       <Container>
@@ -75,7 +78,7 @@ const AdminProduct = () => {
 
         <ProductTable
           header={tableHeader}
-          data=""
+          data={productList}
           deleteItem={deleteItem}
           openEditForm={openEditForm}
         />

@@ -54,7 +54,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     console.log('totalStock :', totalStock)
     if (mode === "new") {
       //새 상품 만들기
-      await createProduct({...formData, totalStock})
+      await createProduct({...formData, stock: totalStock})
       setShowDialog(false)//창닫기
     } else {
       // 상품 수정하기

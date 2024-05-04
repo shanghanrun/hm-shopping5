@@ -11,7 +11,7 @@ const userStore =create((set)=>({
 		try{
 			const resp = await api.get('/user/me')
 			if(resp.status !==200){
-				throw new Error(resp.data.message)
+				throw new Error(resp.error)
 			}
 			const u = await resp.data.user
 			set({user: u})
@@ -29,7 +29,7 @@ const userStore =create((set)=>({
 		try{
 			const resp = await api.post('/user/login', {email,password})
 			if(resp.status !== 200){
-				throw new Error(resp.data.message)
+				throw new Error(resp.error)
 			}
 			console.log('resp', resp)
 			const u = await resp.data.user
@@ -49,7 +49,7 @@ const userStore =create((set)=>({
 	registerUser: async({name,email,password}, navigate, showToastMessage)=>{
 		try{
 			const resp = await api.post('/user', {email,password,name})
-			if(resp.status !==200) throw new Error(resp.message)
+			if(resp.status !==200) throw new Error(resp.error)
 			console.log('회원등록 성공', resp.data.data)
 			set({user: resp.data.data})
 		

@@ -3,6 +3,11 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { currencyFormat } from "../utils/number";
 const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
+  // header와 data가 모두 유효한지 확인
+  if (!header || !data) {
+    return <div>Error: Header or data is missing</div>;
+  }
+  console.log('table에 온 data:', data)
   return (
     <div className="overflow-x">
       <Table striped bordered hover>
@@ -14,7 +19,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {
             data.map((item, index) => (
               <tr key={index}>
                 <th>{index}</th>
@@ -47,9 +52,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                 </th>
               </tr>
             ))
-          ) : (
-            <tr>No Data to show</tr>
-          )}
+          }
         </tbody>
       </Table>
     </div>
