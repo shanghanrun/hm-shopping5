@@ -18,8 +18,8 @@ const Card = ({item}) => {
 	<div className='card' onClick={showDetail} >
 		<div className='card-img' >
 			<img width="100%"
-				src={item.img} alt=""/>
-			<FontAwesomeIcon className={item.status==='favorite'? 'favorite2 active' : 'favorite2'}
+				src={item.image} alt=""/>
+			{/* <FontAwesomeIcon className={item.status==='active'? 'favorite2 active' : 'favorite2'}
 				icon={faHeart} 
 				onClick={(e)=>{
 					e.stopPropagation();//이벤트 버블링 차단
@@ -31,14 +31,14 @@ const Card = ({item}) => {
 						removeItem(item.id); //favoriteList에서 item 제거
 					}
 				}}
-			/>
+			/> */}
 		</div>
 		<div className='card-text'>
-			<div>{item.choice?"Conscious Choice":"."}</div> 
-			<div>{item.title}</div>
+			{/* <div>{item.choice?"Conscious Choice":"."}</div>  */}
+			<div>{item.name}</div>
 			<div>₩{item.price}</div>
 			<div>🟢</div>
-			<div>{item.new?"신제품":"."}</div>
+			{/* <div>{item.new?"신제품":"."}</div> */}
 		</div>
 
 	</div>

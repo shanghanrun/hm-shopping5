@@ -5,25 +5,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import productStore from '../store/productStore';
 
 const ProductAll = () => {
-  const {productList} = productStore()
-  // const [products, setProducts] = useState([])
-  // const [query, setQuery] = useSearchParams()
-  
-  // const getProducts=async()=>{
-  //   let keyword = query.get('q')
-  //   console.log('keyword : ', keyword)
-  //   let url;
-  //   if(keyword){
-  //     // let url = `http://localhost:5000/products?q=${keyword}`
-  //     url = `https://my-json-server.typicode.com/shanghanrun/hm-shopping2/products?q=${keyword}`
-  //   } else{
-  //     url ='https://my-json-server.typicode.com/shanghanrun/hm-shopping2/products'
-  //   }
-  //   let response = await fetch(url);
-  //   let data = await response.json()
-  //   console.log('products : ', data)
-  //   setProducts(data)
-  // }
+  const {productList, getProductList} = productStore()
+
+  useEffect(()=>{
+    getProductList()
+  },[])
+ 
   // useEffect(()=>{
   //   getProducts()
   // },[query])
