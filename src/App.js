@@ -43,10 +43,15 @@ function App() {
       <ToastMessage toastMessage={toastMessage} />
       {location.pathname.includes('admin')? 
         (
-          <Routes>
-            <Route path="/admin/product" element={<PrivateRoute2 Target={AdminProduct} permissionLevel="admin" />} />
-            <Route path="/admin/order" element={<PrivateRoute2 Target={AdminOrderPage} permissionLevel="admin" />} />
-          </Routes>
+          <div style={{display:'flex'}}>
+            <div style={{width:'250px', margin:'10px'}}>
+              <Sidebar />
+            </div>
+            <Routes>
+              <Route path="/admin/product" element={<PrivateRoute2 Target={AdminProduct} permissionLevel="admin" />} />
+              <Route path="/admin/order" element={<PrivateRoute2 Target={AdminOrderPage} permissionLevel="admin" />} />
+            </Routes>
+          </div>
         )
         :(
           <>
@@ -64,10 +69,7 @@ function App() {
             </Routes>
           </>
         )
-      } 
-      {location.pathname.includes('admin') && (
-        <Sidebar />
-      )}
+      }
     </div>
   );
 }

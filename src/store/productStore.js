@@ -4,7 +4,7 @@ import uiStore from './uiStore'
 
 // const {showToastMessage} =uiStore() 이러면 useRef()에러 난다.
 
-const productStore =create((set)=>({
+const productStore =create((set,state)=>({
 	error:'',
 	selectedProduct:{},
 	productList:[],
@@ -14,6 +14,10 @@ const productStore =create((set)=>({
 			if(resp.status !==200) throw new Error(resp.error)
 			console.log('product목록:',resp.data.data)
 			const list = resp.data.data
+			// productList와 list가 동일한지를 판별하는 조건 추가
+      		if (JSON.stringify(state.productList) === JSON.stringify(list)) {
+				return;
+			}
 			set({productList: list})	
 		}catch(e){
 			set({error: e.message})
