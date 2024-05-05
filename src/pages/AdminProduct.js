@@ -35,9 +35,21 @@ const AdminProduct = () => {
   ];
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
+  // useEffect(()=>{
+  //   getProductList({...searchQuery})
+  // },[query])
+
   useEffect(() => {
     getProductList()
     //검색어나 페이지가 바뀌면 url바꿔주기 (검색어또는 페이지가 바뀜 => url 바꿔줌=> url쿼리 읽어옴=> 이 쿼리값 맞춰서  상품리스트 가져오기)
+    if(searchQuery.name ===''){
+      delete searchQuery.name 
+    }
+    console.log('searchQuery:',searchQuery)
+    const params = new URLSearchParams(searchQuery)
+    const urlQuery = params.toString()
+    console.log('query url:',urlQuery)
+    // navigate("?" + urlQuery)
   }, [searchQuery]);
 
   const deleteItem = (id) => {
@@ -60,7 +72,8 @@ const AdminProduct = () => {
     //  쿼리에 페이지값 바꿔주기
   };
   console.log('productList ..:', productList)
-  
+  //searchbox에서 검색어를 읽어온다=>엔터치면=>searchQuery객체가 업데이트 된다.{name:'pants'}
+  //=>searchQuery 객체안의 아이템 기준으로 url새로 생성해서 호출  &name=팬츠 => url 읽어오기=>  url 로 백앤드에 get요청
   return (
     <div className="locate-center">
       <Container>

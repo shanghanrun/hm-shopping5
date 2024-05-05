@@ -8,9 +8,9 @@ const productStore =create((set)=>({
 	error:'',
 	selectedProduct:{},
 	productList:[],
-	getProductList:async()=>{
+	getProductList:async(query)=>{
 		try{
-			const resp= await api.get('/product')
+			const resp= await api.get('/product', {params: {...query}})
 			if(resp.status !==200) throw new Error(resp.error)
 			console.log('product목록:',resp.data.data)
 			const list = resp.data.data
