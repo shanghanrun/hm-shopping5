@@ -1,6 +1,7 @@
 import {create} from 'zustand'
 import api from '../utils/api';
 import uiStore from './uiStore'
+import { isEqual } from 'lodash';
 
 // const {showToastMessage} =uiStore() 이러면 useRef()에러 난다.
 
@@ -8,14 +9,18 @@ const productStore =create((set,state)=>({
 	error:'',
 	selectedProduct:{},
 	productList:[],
-	getProductList:async(query)=>{
+		getProductList:async(searchQuery)=>{
 		try{
-			const resp= await api.get('/product', {params: {...query}})
+			const resp= await api.get('/product', {params: {...searchQuery}})
 			if(resp.status !==200) throw new Error(resp.error)
 			console.log('product목록:',resp.data.data)
 			const list = resp.data.data
 			// productList와 list가 동일한지를 판별하는 조건 추가
-      		if (JSON.stringify(state.productList) === JSON.stringify(list)) {
+      		// if (JSON.stringify(state.productList) === JSON.stringify(list)) {
+			// 	return;
+			// }
+			// productList와 list가 동일한지를 lodash의 isEqual 함수를 사용하여 판별
+			if (isEqual(state.productList, list)) {
 				return;
 			}
 			set({productList: list})	
